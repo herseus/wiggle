@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://cxf.apache.org/policy"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!--检测注解 -->
+	<context:component-scan base-package="com.keepsa" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" 
+		lazy-init="false"> <property name="locations"> <list> <value>classpath:config.properties</value> 
+		<value>classpath:redis.properties</value> </list> </property> </bean> -->
+
+	<!-- <jee:jndi-lookup id="master_db" jndi-name="java:comp/env/master_db" 
+		proxy-interface="javax.sql.DataSource" lookup-on-startup="false" /> <jee:jndi-lookup 
+		id="slave_db" jndi-name="java:comp/env/slave_db" proxy-interface="javax.sql.DataSource" 
+		lookup-on-startup="false" /> -->
+
+	<bean id="master_db" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/wiggle?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
+		<property name="user" value="root" />
+		<property name="password" value="@1q2w3e4r" />
+		<property name="testConnectionOnCheckin" value="false" />
+		<property name="testConnectionOnCheckout" value="true" />
+		<property name="preferredTestQuery" value="SELECT 1" />
+	</bean>
+
+	<bean id="slave_db" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/wiggle?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
+		<property name="user" value="root" />
+		<property name="password" value="@1q2w3e4r" />
+		<property name="testConnectionOnCheckin" value="false" />
+		<property name="testConnectionOnCheckout" value="true" />
+		<property name="preferredTestQuery" value="SELECT 1" />
+	</bean>
+
+	<!-- MyBatis Integration with Spring -->
+	<bean id="sqlSessionFactory_master" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="master_db" />
+		<property name="mapperLocations" value="classpath*:config/mybatis/**/*.xml" />
+	</bean>
+	<bean id="sqlSessionTemplate_master" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory_master" />
+	</bean>
+
+	<bean id="sqlSessionFactory_slave" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="slave_db" />
+		<property name="mapperLocations" value="classpath*:config/mybatis/**/*.xml" />
+	</bean>
+	<bean id="sqlSessionTemplate_slave" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory_slave" />
+	</bean>
+
+	<bean id="businessExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="20" />
+		<property name="maxPoolSize" value="100" />
+		<property name="queueCapacity" value="1000" />
+		<property name="keepAliveSeconds" value="500" />
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
+</beans>

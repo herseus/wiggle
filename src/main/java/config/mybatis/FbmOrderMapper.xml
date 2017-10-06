@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fbmOrderMapper">
+	<select id="query" resultType="com.keepsa.pojo.FbmOrderVo">
+		SELECT order_id orderId,
+			purchase_date purchaseDate,
+			buyer_name buyerName,
+			sku sku,
+			target_sku targetSku,
+			quantity_purchased quantityPurchased,
+			recipient_name recipientName,
+			ship_address1 shipAddress1,
+			ship_address2 shipAddress2,
+			ship_address3 shipAddress3,
+			ship_city shipCity,
+			ship_state shipState,
+			ship_postal_code shipPostalCode,
+			ship_country shipCountry,
+			ship_phone_number shipPhoneNumber,
+			order_status orderStatus
+		FROM fbm_order
+		WHERE order_id=#{orderId}
+		AND sku=#{sku}
+	</select>
+	
+	<insert id="insert" parameterType="com.keepsa.pojo.FbmOrderVo">
+		INSERT INTO fbm_order
+			(
+				order_id,
+				purchase_date,
+				buyer_name,
+				sku,
+				target_sku,
+				quantity_purchased,
+				recipient_name,
+				ship_address1,
+				ship_address2,
+				ship_address3,
+				ship_city,
+				ship_state,
+				ship_postal_code,
+				ship_country,
+				ship_phone_number,
+				order_status
+			)
+		VALUES
+			<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+				#{item.orderId},
+				#{item.purchaseDate},
+				#{item.buyerName},
+				#{item.sku},
+				#{item.targetSku},
+				#{item.quantityPurchased},
+				#{item.recipientName},
+				#{item.shipAddress1},
+				#{item.shipAddress2},
+				#{item.shipAddress3},
+				#{item.shipCity},
+				#{item.shipState},
+				#{item.shipPostalCode},
+				#{item.shipCountry},
+				#{item.shipPhoneNumber},
+				#{item.orderStatus}
+			)
+		</foreach>
+	</insert>
+	
+	<select id="queryUnshippedFBMOrder" resultType="com.keepsa.pojo.UnshippedFBMOrderVo">
+		SELECT fo.order_id orderId,
+			fo.purchase_date purchaseDate,
+			fo.target_sku sku,
+			p.title, 
+			p.main_image_url mainImageUrl, 
+			fo.quantity_purchased quantityPurchased,
+			fo.order_status orderStatus,
+			fo.recipient_name recipientName,
+			fo.ship_address1 shipAddress1,
+			fo.ship_address2 shipAddress2,
+			fo.ship_address3 shipAddress3,
+			fo.ship_city shipCity,
+			fo.ship_state shipState,
+			fo.ship_postal_code shipPostalCode,
+			fo.ship_country shipCountry,
+			fo.ship_phone_number shipPhoneNumber,
+			p.customs_application_title customsApplicationTitle,
+			p.hs_code hsCode,
+			p.cost,
+			p.product_weight weight
+		FROM fbm_order fo
+		INNER JOIN product p
+		ON fo.target_sku=p.sku
+		WHERE fo.order_status = 1
+		ORDER BY fo.order_id
+	</select>
+	
+	<update id="setUnshippedFbmOrderShipped">
+		UPDATE fbm_order
+		SET order_status=2
+		WHERE order_status=1
+	</update>
+	
+	<select id="queryUnshippedFbmOrders" resultType="com.keepsa.pojo.FbmOrderVo">
+		SELECT order_id orderId,
+			purchase_date purchaseDate,			
+			sku sku,
+			target_sku targetSku,
+			quantity_purchased quantityPurchased,
+			recipient_name recipientName,
+			ship_country shipCountry,
+			order_status orderStatus,
+			insert_time insertTime,
+			update_time updateTime
+		FROM fbm_order
+		WHERE order_status=1
+	</select>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="exRateMapper">
+	<select id="queryExRate" resultType="com.keepsa.pojo.ExRateVo">
+		SELECT eurcny EURCNY,
+			gbpcny GBPCNY,
+			jpycny JPYCNY,
+			usdcny USDCNY,
+			cadcny CADCNY,
+			update_time updateTime
+		FROM ex_rate
+		ORDER BY id
+		LIMIT 1
+	</select>
+	
+	<update id="updateExRate" parameterType="com.keepsa.pojo.ExRateVo">
+		UPDATE ex_rate
+		SET eurcny = #{EURCNY},
+			gbpcny = #{GBPCNY},
+			jpycny = #{JPYCNY},
+			usdcny = #{USDCNY},
+			cadcny = #{CADCNY}
+	</update>
+
+</mapper>

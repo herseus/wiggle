@@ -1,0 +1,22 @@
+<div>
+    <input type="file" id="imgTest" type="file" onchange="imgChange(event)" accept=".gif,.jpg,.jpeg,.png">
+</div>
+<img src="" id="showImage" alt="">
+
+<script type="text/javascript">
+function imgChange(e) {
+    console.info(e.target.files[0]);//图片文件
+    var dom =document.getElementById("imgTest");
+    console.info(dom.value);//这个是文件的路径 C:\fakepath\icon (5).png
+    console.log(e.target.value);//这个也是文件的路径和上面的dom.value是一样的
+    var reader = new FileReader();
+    reader.onload = (function (file) {
+        return function (e) {
+           console.info(this.result); //这个就是base64的数据了
+            var sss=document.getElementById("showImage");
+            sss.src=this.result;
+        };
+    })(e.target.files[0]);
+    reader.readAsDataURL(e.target.files[0]);
+}
+</script>
