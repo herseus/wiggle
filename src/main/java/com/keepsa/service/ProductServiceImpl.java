@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.management.BadBinaryOpValueExpException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFCreationHelper;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
@@ -29,13 +28,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.util.IOUtils;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.stereotype.Service;
 
 import com.keepsa.dao.ProductDaoImpl;
 import com.keepsa.enumeration.ResponseCodeEnum;
-import com.keepsa.pojo.FbmOrderVo;
 import com.keepsa.pojo.OrderVo;
 import com.keepsa.pojo.ProductAggregateInfoVo;
 import com.keepsa.pojo.ProductBaseInfoVo;

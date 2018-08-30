@@ -30,7 +30,6 @@ public class WiggleServlet implements Servlet {
 	 * <load-on-startup>2</load-on-startup> </servlet> 其数值越小越被被早创建
 	 * 
 	 */
-	@Override
 	public void destroy() {
 		System.out.println("destroy");
 
@@ -50,19 +49,16 @@ public class WiggleServlet implements Servlet {
 	 * getResourceAsStream("jdbc.properties")：文件是在src目录下的文件
 	 * getResourceAsStream("/WEB-INF/classes/jdbc.properties")：第二种方法
 	 */
-	@Override
 	public ServletConfig getServletConfig() {
 		System.out.println("getservletconfit");
 		return null;
 	}
 
-	@Override
 	public String getServletInfo() {
 		System.out.println("getservletinfo");
 		return null;
 	}
 
-	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
 		System.out.println("init");
 		String user = servletConfig.getInitParameter("user");
@@ -118,7 +114,6 @@ public class WiggleServlet implements Servlet {
 
 	}
 
-	@Override
 	public void service(ServletRequest arg0, ServletResponse arg1) throws ServletException, IOException {
 		System.out.println("servlce");
 

@@ -30,9 +30,9 @@
 	<bean id="master_db" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/wiggle?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
+			value="jdbc:mysql://localhost:3306/pfcase?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
 		<property name="user" value="root" />
-		<property name="password" value="@1q2w3e4r" />
+		<property name="password" value="123456" />
 		<property name="testConnectionOnCheckin" value="false" />
 		<property name="testConnectionOnCheckout" value="true" />
 		<property name="preferredTestQuery" value="SELECT 1" />
@@ -41,9 +41,9 @@
 	<bean id="slave_db" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3306/wiggle?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
+			value="jdbc:mysql://localhost:3306/pfcase?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true" />
 		<property name="user" value="root" />
-		<property name="password" value="@1q2w3e4r" />
+		<property name="password" value="123456" />
 		<property name="testConnectionOnCheckin" value="false" />
 		<property name="testConnectionOnCheckout" value="true" />
 		<property name="preferredTestQuery" value="SELECT 1" />

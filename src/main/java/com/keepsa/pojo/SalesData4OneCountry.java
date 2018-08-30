@@ -2,7 +2,7 @@ package com.keepsa.pojo;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class SalesData4OneCountry {
 	private String countryName = StringUtils.EMPTY;

@@ -2,7 +2,7 @@ package com.keepsa.pojo;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Base info for one product, default values set as following.
